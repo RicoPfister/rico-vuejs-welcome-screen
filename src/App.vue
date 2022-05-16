@@ -26,7 +26,15 @@
       <h1 :style=entryTitle>Projekt Start: Welcome Screen</h1>
       <p :style=entryContent>Das Layout und das Design des Welcome Screens wird umgesetzt</p>
 
-    </div>    
+    </div>
+    
+    <div :style='[entryContainer, entrySeparator]'>
+    
+      <h1 :style=entryTime>8:30 Uhr</h1>
+      <h1 :style=entryTitle>Projekt Start: Welcome Screen</h1>
+      <p :style=entryContent>Das Layout und das Design des Welcome Screens wird umgesetzt</p>
+
+    </div>         
 
   </div>
 </template>
