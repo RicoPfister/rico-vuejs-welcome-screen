@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     
-    <h1 :style=heading>Welcome to Opportunity</h1>
+    <h1 :style=heading>{{ title }}</h1>
     <h1 :style=date>{{ date_function }}</h1>
+
+    <p>{{ entries }}</p>
 
     <div :style='[entryContainer, entrySeparator]'>
     
@@ -40,11 +42,16 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   name: 'App',
   data(){
     return {
+      sheet_id: "1a81aI0Y8ViZO0tI92h2YSMqVQJ8hmNNMyMylXgvwiU4",
+      api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
+      entries: [],
+      title: 'Welcome to Opportunity',
       logoBar: {
           display: 'flex',
           'justify-content': 'space-between',
@@ -109,14 +116,34 @@ export default {
     }
   },
 
+  methods: {
+
+    getData() {
+      axios.get(this.gsheet_url).then((response) => {
+        this.entries = response.data.valueRanges[0].values;
+        this.entries.push('test123');
+      });
+
+      
+    }
+  },
+
   computed:{
+
     date_function: function () {
 
       const today = new Date();
       const date = today.getDate() + '.' + (today.getMonth()+1) + '.' + today.getFullYear();
-      return date;
-     
-    }
+      return date;     
+    },
+
+    gsheet_url() {
+      return `https://sheets.googleapis.com/v4/spreadsheets/${this.sheet_id}/values:batchGet?ranges=A1%3AE100&valueRenderOption=FORMATTED_VALUE&key=${this.api_token}`;
+    },
+  },
+
+  mounted() {
+    this.getData();
   }
 }
 </script>
