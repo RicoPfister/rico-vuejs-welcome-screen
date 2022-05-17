@@ -2,7 +2,7 @@
   <div id="app">
     
     <h1 :style=heading>Welcome to Opportunity</h1>
-    <h1 :style=date>08.08.2021</h1>
+    <h1 :style=date>{{ date_function }}</h1>
 
     <div :style='[entryContainer, entrySeparator]'>
     
@@ -28,11 +28,11 @@
 
     </div>
     
-    <div :style='[entryContainer, entrySeparator]'>
+    <div :style=logoBar>
     
-      <h1 :style=entryTime>8:30 Uhr</h1>
-      <h1 :style=entryTitle>Projekt Start: Welcome Screen</h1>
-      <p :style=entryContent>Das Layout und das Design des Welcome Screens wird umgesetzt</p>
+    <img :src=logo1 alt="Logo1" :style='{ height: assetHeight }'>
+    <img :src=logo2 alt="Logo2" :style='{ height: assetHeight }'>
+    <img :src=logo3 alt="Logo3" :style='{ height: assetHeight }'>
 
     </div>         
 
@@ -45,51 +45,77 @@ export default {
   name: 'App',
   data(){
     return {
+      logoBar: {
+          display: 'flex',
+          'justify-content': 'space-between',
+          background: 'white',
+          width: '1000px',
+          position: 'fixed',
+          bottom: '0',
+      },
+      justifyContentBetween: 'space-between',
+      alignContent: 'space-between',
+      containerWidth: '1000px',
+      logo1: require('../src/assets/STZH_SEB_Logo.png'),
+      logo2: require('../src/assets/Opportunity.png'),
+      logo3: require('../src/assets/SAG_Logo_De.png'),
+      assetHeight: '50px',
+      backgroundWhite: 'white',
       heading: {
       'font-weight': '900',
       color: '#323D4A',
-      'font-size': '25px',
+      'font-size': '62px',
       padding: 0,
       margin: 0,      
       },
       date: {
       'font-weight': '500',
       color: '#9AA7B1',
-      'font-size': '25px',
-      padding: '10px 0',
+      'font-size': '62px',
+      padding: '40px 0',
       margin: 0,
       },
       entryContainer: {
       background: '#0F05A0',
-      'padding-top': '11px',
-      'padding-left': '14px',
-      width: '380px',
-      height: '50px',
+      'padding-top': '28px',
+      'padding-left': '30px',
+      width: '970px',
+      height: '130px',
       },
       entrySeparator: {
-        'margin-bottom': '10px',
+        'margin-bottom': '20px',
       },
       entryTime: {
       'font-weight': '900',
       color: '#EB5E00',
-      'font-size': '10px',
+      'font-size': '28px',
       padding: 0,
       margin: 0,
       },
       entryTitle: {
       'font-weight': '900',
       color: '#FFBFAB',
-      'font-size': '10px',
+      'font-size': '28px',
       padding: 0,
       margin: 0,
       },
       entryContent: {
       'font-weight': '500',
       color: '#FFBFAB',
-      'font-size': '10px',
+      'font-size': '28px',
       padding: 0,
       margin: 0,
       },           
+    }
+  },
+
+  computed:{
+    date_function: function () {
+
+      const today = new Date();
+      const date = today.getDate() + '.' + (today.getMonth()+1) + '.' + today.getFullYear();
+      return date;
+     
     }
   }
 }
@@ -101,11 +127,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  margin-top: 20px;
-  margin-left: 10px;    
+  margin-top: 37px;
+  margin-left: 30px;    
   }
 
-body {
+body, html {
   background: #E8EFF4;
+  height:'200px';
 }
 </style>
