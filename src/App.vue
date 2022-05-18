@@ -140,9 +140,9 @@ export default {
 
     this.getData();
 
-    setInterval(() => {
-      this.refreshData();
-    }, 10000);
+    setInterval(
+      this.refreshData()
+    , 1800000);
     }
 
 }
