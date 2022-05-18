@@ -155,7 +155,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  margin-top: 37px;  
+  margin-top: '37px';  
   }
 
 body, html {
