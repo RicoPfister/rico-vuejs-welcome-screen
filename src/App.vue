@@ -4,15 +4,16 @@
     <div :style="{'margin-left': marginContainer}">
     
       <h1 :style=heading>{{ title }}</h1>
-      <h1 :style=date>{{ date_function }}</h1>
-
-        <div>
-      
-          <ul :style="{'margin-left': marginContainer, 'padding-left': paddingZero}">
+      <h1 :style=date>{{ currentDate }}</h1>
+    
+          <ul v-if="entries" :style="{'margin-left': marginContainer, 'padding-left': paddingZero}">
             <li :style='[entryContainer, entrySeparator]' v-for="entry in entries" :key='entry'><div :style=entryTime>{{ entry[0] }} / {{ entry[1].replace(/\//g, '.') }}</div><h3 :style=entryTitle>{{ entry[2] }}</h3><div :style=entryContent>{{ entry[3] }}</div></li>
           </ul>
 
-      </div>
+          <div v-else style="padding-left:15px">
+            <h1>No database entries.</h1>
+            <img :src=warning alt="Warning Sign" style="height: 100px">
+          </div>
 
     </div>
 
@@ -35,10 +36,11 @@ export default {
   name: 'App',
   data(){
     return {
+      warning: require('../src/assets/warning.png'),
       assetHeight: '50px',
       marginContainer: '15px',
-      sheet_id: "1a81aI0Y8ViZO0tI92h2YSMqVQJ8hmNNMyMylXgvwiU4",
-      api_token: "AIzaSyA-qeDXOhEeQDA0vQf7LgkF7DQtGnAtmAU",
+      sheet_id: "1hABjKywxfrKfKgygWyDtlKxfZ-ZMolhMXd3uFFKVXxI",
+      api_token: "AIzaSyDn0LwBJRiTQHAvvlsn3UHC-Q2WkrZYlcc",
       entries: [],
       title: 'Welcome to Opportunity',
       logoBar: {
@@ -59,21 +61,25 @@ export default {
       logo3: require('../src/assets/SAG_Logo_De.png'),
       backgroundWhite: 'white',
       heading: {
-      'font-weight': '900',
-      color: '#323D4A',
-      'font-size': '62px',
-      margin: 0,      
+        'font-weight': '900',
+        color: '#323D4A',
+        'font-size': '62px',
+        margin: 0,
+        'padding-left': '15px',
       },
       date: {
-      'font-weight': '500',
-      color: '#9AA7B1',
-      'font-size': '62px',
-      margin: 0,
+        'font-weight': '500',
+        color: '#9AA7B1',
+        'font-size': '62px',
+        'padding-top': '15px',
+        'padding-bottom': '15px',
+        'padding-left': '15px',
+        margin: 0,
       },
       entryContainer: {
-      background: '#0F05A0',
-      'padding-left': '30px',
-      width: '970px',
+        background: '#0F05A0',
+        'padding-left': '30px',
+        width: '970px',
       },
       entrySeparator: {
         'margin-bottom': '20px',
@@ -105,15 +111,19 @@ export default {
     getData() {
       axios.get(this.gsheet_url).then((response) => {
         this.entries = response.data.valueRanges[0].values;
-      });
+      });      
+    },
 
-      
-    }
+    refreshData() {
+
+      this.currentDate;
+      this.getData();
+    },
   },
 
   computed:{
 
-    date_function: function () {
+    currentDate: function () {
 
       const today = new Date();
 
@@ -127,9 +137,16 @@ export default {
   },
 
   mounted() {
+
     this.getData();
-  }
+
+    setInterval(
+      this.refreshData()
+    , 1800000);
+    }
+
 }
+
 </script>
 
 <style>
