@@ -1,9 +1,5 @@
-# Site preview
+# Project Info
+
+![Screenshot](screenshot-welcome-screen.png)
 
 https://taupe-caramel-6c7424.netlify.app/
-
-# Version
-
-*20220506 Create vue.je basic files
-
-test4
