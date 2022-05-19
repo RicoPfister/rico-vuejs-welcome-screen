@@ -145,7 +145,7 @@ export default {
 
     this.getData();
 
-    let interval=21000;
+    let interval=10000;
 
     let timeDisplay = 1000*60;
     let minutesOrSeconds = "Minute(n)";
