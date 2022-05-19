@@ -140,8 +140,14 @@ export default {
 
     this.getData();
 
+    let interval=0;
+
     setInterval(
-      this.refreshData()
+
+      if (interval >= 1800000) {
+      this.refreshData();
+      }
+      interval++;
     , 1800000);
     }
 
