@@ -7,13 +7,15 @@
       <h1 :style=date>{{ currentDate }}</h1>
     
           <ul v-if="entries" :style="{'margin-left': marginContainer, 'padding-left': paddingZero}">
-            <li :style='[entryContainer, entrySeparator]' v-for="entry in entries" :key='entry'><div :style=entryTime>{{ entry[0] }} / {{ entry[1].replace(/\//g, '.') }}</div><h3 :style=entryTitle>{{ entry[2] }}</h3><div :style=entryContent>{{ entry[3] }}</div></li>
+            <li :style='[entryContainer, entrySeparator]' v-for="entry in entries" :key='entry'><div :style=entryTime>{{ entry[1].replace(/\//g, '.') }} / {{ entry[0] }}</div><h3 :style=entryTitle>{{ entry[2] }}</h3><div :style=entryContent>{{ entry[3] }}</div></li>
           </ul>
 
           <div v-else style="padding-left:15px">
             <h1>No database entries.</h1>
             <img :src=warning alt="Warning Sign" style="height: 100px">
           </div>
+
+          <p :style="{'margin-left': marginContainer}">{{ timerMS }}</p>
 
     </div>
 
@@ -36,6 +38,7 @@ export default {
   name: 'App',
   data(){
     return {
+      timerMS: 0,
       warning: require('../src/assets/warning.png'),
       assetHeight: '50px',
       marginContainer: '15px',
@@ -80,6 +83,7 @@ export default {
         background: '#0F05A0',
         'padding-left': '30px',
         width: '970px',
+        'box-shadow': '15px 10px 10px black',
       },
       entrySeparator: {
         'margin-bottom': '20px',
@@ -118,6 +122,7 @@ export default {
 
       this.currentDate;
       this.getData();
+
     },
   },
 
@@ -140,17 +145,25 @@ export default {
 
     this.getData();
 
-    let interval=0;
+    let interval=21000;
 
-    setInterval(
+    let timeDisplay = 1000*60;
+    let minutesOrSeconds = "Minute(n)";
 
-      if (interval >= 1800000) {
-      this.refreshData();
-      }
-      interval++;
-    , 1800000);
+    let timer = () => {     
+      
+      if (interval < 60000) {timeDisplay = 1000; minutesOrSeconds="Sekunde(n)";}
+      this.timerMS = "Seite wird in " + Math.ceil(interval/timeDisplay) +" "+minutesOrSeconds+" aktualisiert.";
+
+      if (interval <= 0) {interval = 1800000; timeDisplay = 1000*60; minutesOrSeconds = "Minute(n)"; this.refreshData();}
+      
+      interval-=1000;
+
     }
 
+    setInterval(timer, 1000);
+
+}
 }
 
 </script>
